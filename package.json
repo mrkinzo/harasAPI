@@ -1,0 +1,26 @@
+{
+  "name": "harasapi",
+  "version": "1.0.0",
+  "description": "Sistema Sleek de Gestão Equestre com persistência em SQLite, alocação de baias por ID e integração com a API Equides",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "haras",
+    "equides",
+    "cavalos",
+    "baias",
+    "sqlite",
+    "jwt",
+    "sleek"
+  ],
+  "author": "Kinzo",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^18.0.9",
+    "mysql2": "^3.24.6"
+  }
+}

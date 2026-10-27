@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Equides Oficial | Haras Imperial</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000000'><path d='M21.5 12V8.5L18 6l-3.5 2.5L12 6.5 9 8.5 7.5 7 3.5 10l1 5 3.5-1 4 4.5h4.5l2-2.5 3-4z'/></svg>">
+</head>
+<body>
+
+  <!-- ==========================================
+       TOP NAVIGATION BAR
+       ========================================== -->
+  <header class="navbar" id="appNavbar">
+    <a href="/index.html" class="brand-logo">
+      <div class="brand-icon-wrapper">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1 class="brand-font">Haras Imperial</h1>
+        <span>Plantel & Baias Oficiais</span>
+      </div>
+    </a>
+
+    <nav>
+      <ul class="nav-links">
+        <li>
+          <a class="nav-item" href="/index.html">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+            Visão Geral
+          </a>
+        </li>
+        <li>
+          <a class="nav-item" href="/cavalos.html">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15.5 8.5-3-3L10 8l-2-2-5 5 2 2 3-3 2 2 4-4 2 2z"/><circle cx="18.5" cy="5.5" r="2.5"/><path d="M3 21h18"/></svg>
+            Meus Cavalos
+          </a>
+        </li>
+        <li>
+          <a class="nav-item" href="/baias.html">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            Mapa das Baias
+          </a>
+        </li>
+        <li>
+          <a class="nav-item active" href="/equides.html">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg>
+            Base Equides API
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="user-controls">
+      <div class="user-badge">
+        <div class="avatar" id="navAvatar">H</div>
+        <span class="user-name" id="navUserName">Usuário</span>
+      </div>
+      <button class="btn-logout" onclick="app.logout()" title="Encerrar sessão">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sair
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       EQUIDES API LIVE SEARCH & IMPORT
+       ========================================== -->
+  <main class="main-wrapper">
+    <div class="api-hero-card">
+      <div class="hero-crest" style="display: inline-flex; margin-bottom: 1rem; padding: 0.3rem 0.75rem; border: 1px solid var(--border-strong); background: var(--bg-main); font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">
+        Registro Genealogico Internacional
+      </div>
+      <h2 class="brand-font">Base Oficial de Equídeos (api-equides.org)</h2>
+      <p>
+        Pesquise em tempo real os registros de equinos da base internacional. Escolha qualquer cavalo e importe-o para o seu banco de dados MySQL com alocação automática da próxima Baia disponível!
+      </p>
+
+      <form class="api-search-bar" onsubmit="app.searchEquidesApi(event)">
+        <input type="text" id="apiSearchQuery" class="input-control" placeholder="Buscar por termo (ex: qab, arab, camargue, poney)..." value="qab">
+        <button type="submit" class="btn btn-primary" id="btnApiSearch">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          Pesquisar
+        </button>
+      </form>
+
+      <div class="quick-search-chips">
+        <span class="chip-label">Exemplos rápidos:</span>
+        <button type="button" class="search-chip" onclick="app.quickSearchApi('qab')">Qab (Padrão API)</button>
+        <button type="button" class="search-chip" onclick="app.quickSearchApi('camargue')">Camargue</button>
+        <button type="button" class="search-chip" onclick="app.quickSearchApi('arabe')">Árabe</button>
+        <button type="button" class="search-chip" onclick="app.quickSearchApi('lusitano')">Lusitano</button>
+        <button type="button" class="search-chip" onclick="app.quickSearchApi('merens')">Mérems</button>
+        <button type="button" class="search-chip" onclick="app.quickSearchApi('selle')">Selle Français</button>
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.25rem;">Resultados Encontrados na API</h3>
+      <span id="apiResultCount" style="font-size: 0.85rem; color: var(--text-muted);">Pronto para busca</span>
+    </div>
+
+    <!-- API Results Grid -->
+    <div class="api-results-grid" id="apiResultsGrid"></div>
+  </main>
+
+  <!-- MODAL: CONFIRM IMPORT TO MYSQL -->
+  <div class="modal-backdrop" id="horseModalBackdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title brand-font">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15.5 8.5-3-3L10 8l-2-2-5 5 2 2 3-3 2 2 4-4 2 2z"/></svg>
+          <span id="horseModalTitleText">Importar Animal para o Haras</span>
+        </h3>
+        <button class="modal-close-btn" onclick="app.closeHorseModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <form id="formHorse" onsubmit="app.handleHorseSubmit(event)">
+        <div class="modal-body">
+          <input type="hidden" id="horseEditId" value="">
+          <input type="hidden" id="horseApiId" value="">
+
+          <div class="stall-assignment-notice">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink: 0;"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 21V9"/></svg>
+            <div>
+              <strong>Atribuição Automática de Baia no MySQL:</strong>
+              <div id="stallNoticeDescription" style="font-size: 0.8rem; margin-top: 0.2rem; color: #cbd5e1;">
+                Ao confirmar, o animal será salvo no MySQL e receberá a sua Baia respectiva ao ID gerado.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="horseNom">Nome Oficial do Cavalo (conforme API) *</label>
+            <input type="text" id="horseNom" class="input-control" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label for="horseRace">Raça *</label>
+              <input type="text" id="horseRace" class="input-control" required>
+            </div>
+            <div class="form-group">
+              <label for="horseSexe">Sexo (API Format) *</label>
+              <select id="horseSexe" class="input-control" required>
+                <option value="Male">Macho (Male)</option>
+                <option value="Femelle">Fêmea (Femelle)</option>
+                <option value="Hongre">Castrado (Hongre)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label for="horseBirthYear">Ano de Nascimento</label>
+              <input type="number" id="horseBirthYear" class="input-control" min="1970" max="2030">
+            </div>
+            <div class="form-group">
+              <label for="horseStatus">Status Inicial</label>
+              <select id="horseStatus" class="input-control">
+                <option value="Ativo">Ativo no Haras</option>
+                <option value="Treinamento">Em Treinamento</option>
+                <option value="Reprodução">Reprodução</option>
+                <option value="Descanso">Descanso / Piquete</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="horseScore">Score Genealógico</label>
+            <input type="number" step="0.001" id="horseScore" class="input-control" min="0" max="1">
+          </div>
+
+          <div class="form-group">
+            <label for="horseObservacoes">Anotações e Histórico</label>
+            <textarea id="horseObservacoes" class="input-control" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="app.closeHorseModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="btnSubmitHorse">Confirmar & Salvar no Haras</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="/js/app.js"></script>
+</body>
+</html>

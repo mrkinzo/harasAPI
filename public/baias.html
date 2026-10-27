@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa das Baias | Haras Imperial</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000000'><path d='M21.5 12V8.5L18 6l-3.5 2.5L12 6.5 9 8.5 7.5 7 3.5 10l1 5 3.5-1 4 4.5h4.5l2-2.5 3-4z'/></svg>">
+</head>
+<body>
+
+  <!-- ==========================================
+       TOP NAVIGATION BAR
+       ========================================== -->
+  <header class="navbar" id="appNavbar">
+    <a href="/index.html" class="brand-logo">
+      <div class="brand-icon-wrapper">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1 class="brand-font">Haras Imperial</h1>
+        <span>Plantel & Baias Oficiais</span>
+      </div>
+    </a>
+
+    <nav>
+      <ul class="nav-links">
+        <li>
+          <a class="nav-item" href="/index.html">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+            Visão Geral
+          </a>
+        </li>
+        <li>
+          <a class="nav-item" href="/cavalos.html">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15.5 8.5-3-3L10 8l-2-2-5 5 2 2 3-3 2 2 4-4 2 2z"/><circle cx="18.5" cy="5.5" r="2.5"/><path d="M3 21h18"/></svg>
+            Meus Cavalos
+          </a>
+        </li>
+        <li>
+          <a class="nav-item active" href="/baias.html">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            Mapa das Baias
+          </a>
+        </li>
+        <li>
+          <a class="nav-item" href="/equides.html">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg>
+            Base Equides API
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="user-controls">
+      <div class="user-badge">
+        <div class="avatar" id="navAvatar">H</div>
+        <span class="user-name" id="navUserName">Usuário</span>
+      </div>
+      <button class="btn-logout" onclick="app.logout()" title="Encerrar sessão">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sair
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       STALLS BARN MAP VIEW
+       ========================================== -->
+  <main class="main-wrapper">
+    <div class="dashboard-header">
+      <div class="dashboard-title">
+        <h2 class="brand-font">Mapa Arquitetônico das Baias</h2>
+        <p>Cada cavalo ocupa estritamente a baia com numeração correspondente ao seu ID gerado no MySQL.</p>
+      </div>
+      <div class="header-actions">
+        <a class="btn btn-primary" href="/cavalos.html?novo=true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Ocupar Próxima Baia
+        </a>
+      </div>
+    </div>
+
+    <div class="barn-map-header">
+      <div>
+        <h3 style="font-size: 1.15rem; margin-bottom: 0.25rem;">Pavilhão Principal de Cocheiras</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Layout gráfico com monitoramento de ocupação em tempo real</p>
+      </div>
+      <div class="barn-legend">
+        <div class="legend-item">
+          <span class="legend-dot occupied"></span>
+          <span>Baia Ocupada (ID Ativo)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot available"></span>
+          <span>Baia Livre / Futura</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stalls Barn Grid -->
+    <div class="stalls-barn-grid" id="stallsBarnGrid">
+      <!-- Populated via JS -->
+    </div>
+  </main>
+
+  <!-- MODAL DETAILS -->
+  <div class="modal-backdrop" id="horseDetailsModalBackdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title brand-font">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+          Ficha Oficial do Equino
+        </h3>
+        <button class="modal-close-btn" onclick="app.closeDetailsModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="horseDetailsContent"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="app.closeDetailsModal()">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="/js/app.js"></script>
+</body>
+</html>

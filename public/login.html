@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login & Registro | Haras Imperial</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000000'><path d='M21.5 12V8.5L18 6l-3.5 2.5L12 6.5 9 8.5 7.5 7 3.5 10l1 5 3.5-1 4 4.5h4.5l2-2.5 3-4z'/></svg>">
+</head>
+<body style="display: flex; align-items: center; justify-content: center; min-height: 100vh;">
+
+  <!-- ==========================================
+       LOGIN / REGISTRO PANEL
+       ========================================== -->
+  <section class="auth-wrapper" style="width: 100%;">
+    <div class="auth-container">
+      <!-- Left Hero Panel -->
+      <div class="auth-hero">
+        <div class="auth-hero-header">
+          <div class="hero-crest brand-font">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Haras Imperial
+          </div>
+          <h2 class="brand-font">Controle de Plantel & Baias de Elite</h2>
+          <p>
+            Plataforma refinada com persistência em banco de dados MySQL, vinculação estrita de Baias por ID e integração em tempo real com a API oficial Equides internacional.
+          </p>
+        </div>
+
+        <ul class="auth-features-list">
+          <li class="auth-feature-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>Alocação automática e individual de Baias pelo ID</span>
+          </li>
+          <li class="auth-feature-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>Persistência robusta no banco de dados MySQL</span>
+          </li>
+          <li class="auth-feature-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>CRUD completo com busca na API oficial api-equides.org</span>
+          </li>
+          <li class="auth-feature-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>Sessão persistente no localhost com tokens seguros JWT</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Right Form Panel -->
+      <div class="auth-card-panel">
+        <div class="auth-tabs">
+          <button class="auth-tab-btn active" id="tabBtnLogin" onclick="setAuthTab('login')">Entrar</button>
+          <button class="auth-tab-btn" id="tabBtnRegister" onclick="setAuthTab('register')">Cadastrar Haras</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="formLogin" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label for="loginEmail">E-mail</label>
+            <input type="email" id="loginEmail" class="input-control" placeholder="seu@email.com" required autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Senha</label>
+            <input type="password" id="loginPassword" class="input-control" placeholder="••••••••" required autocomplete="current-password">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" style="margin-top: 1rem;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+            Acessar Meu Haras
+          </button>
+        </form>
+
+        <!-- Register Form -->
+        <form id="formRegister" onsubmit="handleRegister(event)" style="display: none;">
+          <div class="form-group">
+            <label for="regName">Nome Completo / Haras</label>
+            <input type="text" id="regName" class="input-control" placeholder="Ex: Kinzo Haras Imperial" required>
+          </div>
+          <div class="form-group">
+            <label for="regEmail">E-mail de Acesso</label>
+            <input type="email" id="regEmail" class="input-control" placeholder="seu@email.com" required autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="regPassword">Senha de Segurança (mín. 6 caracteres)</label>
+            <input type="password" id="regPassword" class="input-control" placeholder="••••••••" required minlength="6" autocomplete="new-password">
+          </div>
+          <button type="submit" class="btn btn-emerald btn-block" style="margin-top: 1rem;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+            Criar Minha Conta
+          </button>
+        </form>
+
+        <!-- Quick 1-Click Demo Login Box -->
+        <div class="demo-account-box">
+          <p>Deseja testar instantaneamente?</p>
+          <button type="button" class="btn btn-secondary btn-block" style="font-size: 0.825rem;" onclick="quickDemoLogin()">
+            Entrar com Usuario Demo Pre-configurado
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <script>
+    // Redirect if already authenticated
+    if (localStorage.getItem('haras_token')) {
+      window.location.href = '/index.html';
+    }
+
+    function setAuthTab(tab) {
+      const isLogin = tab === 'login';
+      document.getElementById('tabBtnLogin').classList.toggle('active', isLogin);
+      document.getElementById('tabBtnRegister').classList.toggle('active', !isLogin);
+      document.getElementById('formLogin').style.display = isLogin ? 'block' : 'none';
+      document.getElementById('formRegister').style.display = !isLogin ? 'block' : 'none';
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          return showToast(data.error || 'Erro ao realizar login', 'error');
+        }
+
+        localStorage.setItem('haras_token', data.token);
+        localStorage.setItem('haras_user', JSON.stringify(data.user));
+        showToast(`Bem-vindo, ${data.user.name}!`, 'success');
+        setTimeout(() => window.location.href = '/index.html', 400);
+      } catch (err) {
+        showToast('Falha na comunicação com o servidor', 'error');
+      }
+    }
+
+    async function handleRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const password = document.getElementById('regPassword').value;
+
+      try {
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          return showToast(data.error || 'Erro ao realizar cadastro', 'error');
+        }
+
+        localStorage.setItem('haras_token', data.token);
+        localStorage.setItem('haras_user', JSON.stringify(data.user));
+        showToast('Conta criada com sucesso!', 'success');
+        setTimeout(() => window.location.href = '/index.html', 400);
+      } catch (err) {
+        showToast('Falha na comunicação com o servidor', 'error');
+      }
+    }
+
+    function quickDemoLogin() {
+      document.getElementById('loginEmail').value = 'demo@haras.com';
+      document.getElementById('loginPassword').value = 'haras123';
+      setAuthTab('login');
+      document.getElementById('formLogin').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+    }
+
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `<span>${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+  </script>
+</body>
+</html>
